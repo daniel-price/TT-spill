@@ -81,5 +81,6 @@ export async function insertAppointment(
     return uuid; //return uuid if successful
   } catch (e) {
     console.error(e);
+    return "";
   }
 }

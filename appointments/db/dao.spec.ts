@@ -1,7 +1,13 @@
-import { retrieveAppointments } from "./dao";
+import { insertAppointment, retrieveAppointments } from "./dao";
 import mockKnex from "mock-knex";
 import db from "./db";
 import { Specialism, Type } from "../types";
+
+import * as uuid from "uuid";
+jest.mock("uuid");
+
+const uuidSpy = jest.spyOn(uuid, "v4");
+uuidSpy.mockReturnValue("c948dcc7-e381-41f7-8a4f-383d3fe89096");
 
 jest.mock("../env", () => {
   return {}; //to prevent errors from the env variables not being set during tests
@@ -117,6 +123,38 @@ describe("retrieveAppointments", () => {
         therapistName: "Annie Aardvark",
         type: "oneoff",
       },
+    ]);
+  });
+});
+
+describe("insertAppointment", () => {
+  beforeEach(() => {
+    tracker.install();
+  });
+
+  afterEach(() => {
+    tracker.uninstall();
+  });
+
+  it("should generate query when no parameters supplied", async () => {
+    const queryPromise = waitForQuery();
+    await insertAppointment(
+      "be6eeec1-70b0-43df-bc52-1a67035998bf",
+      "2022-01-31T09:00:00.000Z",
+      "2022-01-31T10:00:00.000Z",
+      Type.Oneoff
+    );
+    const { sql, bindings } = await queryPromise;
+
+    expect(sql).toEqual(
+      'insert into "appointment" ("end_datetime", "start_datetime", "therapist_uuid", "type", "uuid") values ($1, $2, $3, $4, $5)'
+    );
+    expect(bindings).toEqual([
+      "2022-01-31T10:00:00.000Z",
+      "2022-01-31T09:00:00.000Z",
+      "be6eeec1-70b0-43df-bc52-1a67035998bf",
+      "oneoff",
+      "c948dcc7-e381-41f7-8a4f-383d3fe89096",
     ]);
   });
 });
