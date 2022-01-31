@@ -15,6 +15,7 @@ Root folder holds general dev tools configuration files (husky, eslint, prettier
 `yarn generate` to generate types from graphql schema
 `yarn dev` to run serverless offline
 `yarn test` to run unit tests
+`yarn integration` to run integration tests (local database must be running)
 
 ## Initial design thoughts
 
