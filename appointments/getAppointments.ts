@@ -32,10 +32,10 @@ export async function getAppointments(
 
   //transform the data into the format expected by graphql
   return appointments.map(
-    ({ therapistName, startDateTime, endDateTime, type }) => {
+    ({ therapistName, startDateTime, endDateTime, type, therapistUuid }) => {
       const duration = Math.floor((endDateTime - startDateTime) / 60000);
 
-      return { therapistName, startDateTime, duration, type };
+      return { therapistName, startDateTime, duration, type, therapistUuid };
     }
   );
 }

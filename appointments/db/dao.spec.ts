@@ -29,7 +29,7 @@ describe("retrieveAppointments", () => {
     await retrieveAppointments();
     const { sql, bindings } = await queryPromise;
     expect(sql).toEqual(
-      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid"'
+      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type", "appointment"."therapist_uuid" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid"'
     );
     expect(bindings).toEqual([]);
   });
@@ -39,7 +39,7 @@ describe("retrieveAppointments", () => {
     await retrieveAppointments("2022-01-31T09:00:00.000Z");
     const { sql, bindings } = await queryPromise;
     expect(sql).toEqual(
-      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where "appointment"."start_datetime" >= $1'
+      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type", "appointment"."therapist_uuid" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where "appointment"."start_datetime" >= $1'
     );
     expect(bindings).toEqual(["2022-01-31T09:00:00.000Z"]);
   });
@@ -49,7 +49,7 @@ describe("retrieveAppointments", () => {
     await retrieveAppointments(undefined, "2022-02-01T09:00:00.000Z");
     const { sql, bindings } = await queryPromise;
     expect(sql).toEqual(
-      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where "appointment"."end_datetime" <= $1'
+      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type", "appointment"."therapist_uuid" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where "appointment"."end_datetime" <= $1'
     );
     expect(bindings).toEqual(["2022-02-01T09:00:00.000Z"]);
   });
@@ -59,7 +59,7 @@ describe("retrieveAppointments", () => {
     await retrieveAppointments(undefined, undefined, Type.Oneoff);
     const { sql, bindings } = await queryPromise;
     expect(sql).toEqual(
-      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where "appointment"."type" = $1'
+      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type", "appointment"."therapist_uuid" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where "appointment"."type" = $1'
     );
     expect(bindings).toEqual(["oneoff"]);
   });
@@ -72,7 +72,7 @@ describe("retrieveAppointments", () => {
     ]);
     const { sql, bindings } = await queryPromise;
     expect(sql).toEqual(
-      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $1 and therapist_specialism.therapist_uuid = therapist.uuid) and exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $2 and therapist_specialism.therapist_uuid = therapist.uuid)'
+      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type", "appointment"."therapist_uuid" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $1 and therapist_specialism.therapist_uuid = therapist.uuid) and exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $2 and therapist_specialism.therapist_uuid = therapist.uuid)'
     );
     expect(bindings).toEqual(["ADHD", "addiction"]);
   });
@@ -87,7 +87,7 @@ describe("retrieveAppointments", () => {
     );
     const { sql, bindings } = await queryPromise;
     expect(sql).toEqual(
-      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $1 and therapist_specialism.therapist_uuid = therapist.uuid) and exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $2 and therapist_specialism.therapist_uuid = therapist.uuid) and "appointment"."start_datetime" >= $3 and "appointment"."end_datetime" <= $4 and "appointment"."type" = $5'
+      'select "therapist"."name", "appointment"."start_datetime", "appointment"."end_datetime", "appointment"."type", "appointment"."therapist_uuid" from "appointment" inner join "therapist" on "appointment"."therapist_uuid" = "therapist"."uuid" where exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $1 and therapist_specialism.therapist_uuid = therapist.uuid) and exists (select 1 from "therapist_specialism" where "therapist_specialism"."type" = $2 and therapist_specialism.therapist_uuid = therapist.uuid) and "appointment"."start_datetime" >= $3 and "appointment"."end_datetime" <= $4 and "appointment"."type" = $5'
     );
     expect(bindings).toEqual([
       "ADHD",

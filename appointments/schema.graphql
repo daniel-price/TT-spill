@@ -3,6 +3,7 @@ type Appointment {
   duration: Int!
   type: Type!
   therapistName: String!
+  therapistUuid: String
 }
 
 type Query {
@@ -14,8 +15,18 @@ type Query {
   ): [Appointment]!
 }
 
+type Mutation {
+  createAppointment(
+    therapistUuid: String!
+    startDateTime: AWSDateTime!
+    endDateTime: AWSDateTime!
+    type: Type!
+  ): String!
+}
+
 schema {
   query: Query
+  mutation: Mutation
 }
 
 enum Type {
