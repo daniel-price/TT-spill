@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    env_file: .env
+    ports:
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+    volumes:
+      - ./db/csvs:/var/lib/postgresql/csvs
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
