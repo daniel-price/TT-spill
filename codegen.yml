@@ -1,0 +1,16 @@
+overwrite: true
+schema:
+  - appointments/schema.graphql
+  - appointments/appsync.graphql
+
+config:
+  scalars:
+    AWSDateTime: string
+
+generates:
+  appointments/types.ts:
+    plugins:
+      - typescript
+    config:
+      avoidOptionals: true
+      maybeValue: T | undefined

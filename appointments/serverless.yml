@@ -1,0 +1,44 @@
+service: appointments
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
+package:
+  patterns:
+    - "schema.graphql"
+    - "appsync.graphql"
+    - "mapping-templates"
+
+plugins:
+  - serverless-appsync-plugin
+  - serverless-appsync-simulator
+  - serverless-plugin-typescript
+  - serverless-offline
+
+functions:
+  getAppointments:
+    handler: getAppointments.query
+
+custom:
+  serverlessPluginTypescript:
+    tsConfigFileLocation: "../tsconfig.json"
+  appsync-simulator:
+    location: .build
+  appSync:
+    name: Appointments
+    schema: schema.graphql
+    authenticationType: API_KEY
+    mappingTemplatesLocation: mapping-templates
+    mappingTemplates:
+      - dataSource: GetAppointments
+        type: Query
+        field: getAppointments
+        request: Query.getAppointments.request.vtl
+        response: Query.getAppointments.response.vtl
+    dataSources:
+      - type: AWS_LAMBDA
+        name: GetAppointments
+        config:
+          functionName: getAppointments

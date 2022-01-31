@@ -1,0 +1,32 @@
+type Appointment {
+  startDateTime: AWSDateTime!
+  duration: Int!
+  type: Type!
+  therapistName: String!
+}
+
+type Query {
+  getAppointments(
+    fromDateTime: AWSDateTime
+    toDateTime: AWSDateTime
+    type: Type
+    specialisms: [Specialism!]
+  ): [Appointment]!
+}
+
+schema {
+  query: Query
+}
+
+enum Type {
+  oneoff
+  consultation
+}
+
+enum Specialism {
+  addiction
+  ADHD
+  CBT
+  divorce
+  sexuality
+}
