@@ -7,7 +7,7 @@ import { GraphQLClient, gql, request } from "graphql-request";
 import { Type } from "./types";
 import db from "./db/db";
 
-const ENDPOINT = "http://192.168.0.37:20002/graphql";
+const ENDPOINT = "http://localhost:20002/graphql";
 
 const MUTATION = gql`
   mutation CreateAppointment(
