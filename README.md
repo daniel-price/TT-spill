@@ -5,6 +5,7 @@ An API to retrieve and filter appointments.
 ## Requirements
 
 Docker must be installed to run a local postgres db for local testing and integration testing.
+Watchman must be installed for serverless appsync simulator to work (https://facebook.github.io/watchman/docs/install.html)
 
 ## Design
 
